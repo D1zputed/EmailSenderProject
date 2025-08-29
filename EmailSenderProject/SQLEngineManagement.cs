@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.Data.SqlTypes;
+using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -30,7 +31,7 @@ namespace EmailSenderProject
                 return false;
             }
         }
-        public static List<Dictionary<string,string>> RunSelectQuery()
+        public static List<Dictionary<string, string>> RunSelectQuery1()
         {
             List<Dictionary<string, string>> rows = new List<Dictionary<string, string>>();
             Dictionary<string, string> column;
@@ -73,7 +74,7 @@ namespace EmailSenderProject
         {
             Dictionary<string, string> nameEmailPair = new Dictionary<string, string>();
             List<Dictionary<string, string>> rowsFromDatabase = RunSelectQuery();
-            foreach(Dictionary<string, string> column in rowsFromDatabase)
+            foreach (Dictionary<string, string> column in rowsFromDatabase)
             {
                 string nameKey = $"{column["first_name"]}_{column["last_name"]}".ToLower();
                 nameEmailPair[nameKey] = column["email"];
@@ -81,5 +82,54 @@ namespace EmailSenderProject
 
             return nameEmailPair;
         }
+        public static void InitializeDatabase()
+        {
+            string databasePath = "Employee.db";
+
+            if (!File.Exists(databasePath))
+            {
+                using (var connection = new SqliteConnection($"Data Source={databasePath}"))
+                {
+                    connection.Open();
+                    var createTableCmd = connection.CreateCommand();
+                    createTableCmd.CommandText =
+                    @"
+                          CREATE TABLE Employees (
+                              Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                              FirstName TEXT NOT NULL,
+                              LastName TEXT NOT NULL,
+                              Email TEXT NOT NULL
+                          );
+                      ";
+
+                    createTableCmd.ExecuteNonQuery();
+                    connection.Close();
+                }
+            }
+        }
+        public bool CheckConnection()
+        {
+            using (var connection = new SqliteConnection("Data Source=Employee.db"))
+            {
+                bool result;
+                try
+                {
+                    connection.Open();
+                    Debug.WriteLine("Connection to SQLite database established successfully.");
+                    result = true;
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Failed to connect to SQLite database: {ex.Message}");
+                    result = false;
+                }
+                finally
+                {
+                    connection.Close();
+                }
+                return result;
+            }
+        }
+
     }
 }

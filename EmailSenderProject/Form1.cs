@@ -14,7 +14,7 @@ namespace EmailSenderProject
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            if (SQLEngManage.IsNowConnected() == true)
+            if (SQLEngManage.CheckConnection() == true)
             {
                 MessageBox.Show("You are now connected!", "NOTICE!", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
