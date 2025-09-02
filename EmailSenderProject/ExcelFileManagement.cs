@@ -13,17 +13,17 @@ namespace EmailSenderProject
         {
             //load the chosen excel file
             XLWorkbook wb = new XLWorkbook(filePath);
-            
+
             //query the employee table
             List<Dictionary<string, string>> employees = SQLEngineManagement.RunSelectQuery();
             List<string> errorList = [];
-            
+
             //loop through each employee and take their name and put them as arguments in the method
             foreach (Dictionary<string, string> employee in employees)
             {
                 XLWorkbook newBook = new XLWorkbook();
                 IXLWorksheet wsSource;
-                string employeeNameInSheet = $"{employee["last_name"]}_{employee["first_name"]}";
+                string employeeNameInSheet = $"{employee["Last_Name"]}_{employee["First_Name"]}";
                 try
                 {
                     wsSource = wb.Worksheet(employeeNameInSheet);
@@ -33,10 +33,10 @@ namespace EmailSenderProject
                     errorList.Add(employeeNameInSheet);
                     continue;
                 }
-                
+
                 wsSource.CopyTo(newBook, employeeNameInSheet);
                 newBook.SaveAs($"{employeeNameInSheet}.xlsx");
-                EmailManagement.sendEmail(employee["email"], $"{employeeNameInSheet}.xlsx");
+                EmailManagement.sendEmail(employee["Email"], $"{employeeNameInSheet}.xlsx");
             }
             //var wsSource = wb.Worksheet();
         }

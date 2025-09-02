@@ -9,14 +9,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="EmployeeDB.db" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="ClosedXML" Version="0.105.0" />
+    <PackageReference Include="CsvHelper" Version="33.1.0" />
     <PackageReference Include="Mailkit" Version="4.13.0" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.2" />
     <PackageReference Include="Microsoft.Data.SQLite" Version="9.0.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="EmployeeDB.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

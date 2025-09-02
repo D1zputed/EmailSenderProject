@@ -15,44 +15,44 @@ namespace EmailSenderProject
 {
     internal class SQLEngineManagement
     {
-        private static SqlConnection sqlCon = new SqlConnection(@"Server=localhost\SQLEXPRESS;Database=SqlConnectionTest;User Id=default1;Password=12345678;TrustServerCertificate=True;");
+        private static SqliteConnection sqlitecon = new SqliteConnection("DataSource=EmployeeDB.db");
         public Boolean IsNowConnected()
         {
             try
             {
-                sqlCon.Open();
-                sqlCon.Close();
+                sqlitecon.Open();
+                sqlitecon.Close();
                 return true;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-                sqlCon.Close();
+                sqlitecon.Close();
                 return false;
             }
         }
-        public static List<Dictionary<string, string>> RunSelectQuery1()
+        public static List<Dictionary<string, string>> RunSelectQuery()
         {
             List<Dictionary<string, string>> rows = new List<Dictionary<string, string>>();
             Dictionary<string, string> column;
-            string sqlQuery = "SELECT id, first_name, last_name, email FROM SqlConnectionTest.dbo.receipientListTable";
+            string sqlQuery = "SELECT Id, First_Name, Last_Name, Email FROM Employee";
 
-            SqlCommand command = new SqlCommand(sqlQuery, sqlCon);
+            SqliteCommand command = new SqliteCommand(sqlQuery, sqlitecon);
 
             try
             {
-                sqlCon.Open();
+                sqlitecon.Open();
 
-                SqlDataReader reader = command.ExecuteReader();
+                SqliteDataReader reader = command.ExecuteReader();
 
                 while (reader.Read())
                 {
                     column = new Dictionary<string, string>();
 
-                    column["id"] = reader["id"].ToString();
-                    column["first_name"] = reader["first_name"].ToString();
-                    column["last_name"] = reader["last_name"].ToString();
-                    column["email"] = reader["email"].ToString();
+                    column["Id"] = reader["Id"].ToString();
+                    column["First_Name"] = reader["First_Name"].ToString();
+                    column["Last_Name"] = reader["Last_Name"].ToString();
+                    column["Email"] = reader["Email"].ToString();
 
                     rows.Add(column);
                 }
@@ -65,7 +65,7 @@ namespace EmailSenderProject
             }
             finally
             {
-                sqlCon.Close();
+                sqlitecon.Close();
             }
 
             return rows;
@@ -88,10 +88,10 @@ namespace EmailSenderProject
 
             if (!File.Exists(databasePath))
             {
-                using (var connection = new SqliteConnection($"Data Source={databasePath}"))
+                using (sqlitecon)
                 {
-                    connection.Open();
-                    var createTableCmd = connection.CreateCommand();
+                    sqlitecon.Open();
+                    var createTableCmd = sqlitecon.CreateCommand();
                     createTableCmd.CommandText =
                     @"
                           CREATE TABLE Employees (
@@ -103,7 +103,7 @@ namespace EmailSenderProject
                       ";
 
                     createTableCmd.ExecuteNonQuery();
-                    connection.Close();
+                    sqlitecon.Close();
                 }
             }
         }
@@ -130,6 +130,5 @@ namespace EmailSenderProject
                 return result;
             }
         }
-
     }
 }
