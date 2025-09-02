@@ -1,33 +1,34 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
+using DocumentFormat.OpenXml.Spreadsheet;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace EmailSenderProject
 {
-    internal class CSVHandler(string filePath)
+    internal class EmployeeListUpload
     {
-        private readonly string _filePath = filePath;
+        private readonly string _filePath;
+        public required IEnumerable<Employee> records;
+
+        public EmployeeListUpload(string filePath)
+        {
+            this._filePath = filePath;
+            readfile();
+        }
+
         public void readfile()
         {
             using (var reader = new StreamReader(_filePath))
             using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
             {
-                var records = csv.GetRecords<Employee>();
+                records = csv.GetRecords<Employee>();
             }
         }
     }
-    internal class Employee
-    {
-        public int Id { get; set; }
-        public string First_Name { get; set; }
-        public string Last_Name { get; set; }
-        public string Email { get; set; }
-    }
-
-
 }

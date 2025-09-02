@@ -70,6 +70,10 @@ namespace EmailSenderProject
 
             return rows;
         }
+        public static void InsertEmployees()
+        {
+
+        }
         public Dictionary<string, string> GetNameEmailDictionary()
         {
             Dictionary<string, string> nameEmailPair = new Dictionary<string, string>();
@@ -105,29 +109,6 @@ namespace EmailSenderProject
                     createTableCmd.ExecuteNonQuery();
                     sqlitecon.Close();
                 }
-            }
-        }
-        public bool CheckConnection()
-        {
-            using (var connection = new SqliteConnection("Data Source=Employee.db"))
-            {
-                bool result;
-                try
-                {
-                    connection.Open();
-                    Debug.WriteLine("Connection to SQLite database established successfully.");
-                    result = true;
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine($"Failed to connect to SQLite database: {ex.Message}");
-                    result = false;
-                }
-                finally
-                {
-                    connection.Close();
-                }
-                return result;
             }
         }
     }
