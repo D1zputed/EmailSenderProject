@@ -11,12 +11,12 @@ using System.Threading.Tasks;
 
 namespace EmailSenderProject
 {
-    internal class EmployeeListUpload
+    internal class EmployeeCsv
     {
         private readonly string _filePath;
         public required IEnumerable<Employee> records;
 
-        public EmployeeListUpload(string filePath)
+        public EmployeeCsv(string filePath)
         {
             this._filePath = filePath;
             readfile();

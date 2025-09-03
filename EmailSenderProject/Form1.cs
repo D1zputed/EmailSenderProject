@@ -46,15 +46,25 @@ namespace EmailSenderProject
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void employeeUploadButton_Click(object sender, EventArgs e)
         {
-            var wb = new XLWorkbook();
-            wb.Worksheets.Add("sheet");
-            var wsSource = wb.Worksheet(1);
-            var name = wsSource.ToString();
+            using (OpenFileDialog fileDialog = new())
+            {
+                fileDialog.Filter = "CSV Files|*.csv";
+                DialogResult result = fileDialog.ShowDialog();
 
-            Debug.WriteLine(name);
+                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fileDialog.FileName))
+                {
+                    string selectedFile = fileDialog.FileName;
 
+                    // Get all files in the folder
+                    Debug.WriteLine(selectedFile);
+                }
+                else
+                {
+                    Console.WriteLine("No folder selected.");
+                }
+            }
         }
     }
 }

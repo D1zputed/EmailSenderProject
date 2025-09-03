@@ -29,24 +29,36 @@
         private void InitializeComponent()
         {
             uploadFileButton = new Button();
+            employeeUploadButton = new Button();
             SuspendLayout();
             // 
             // uploadFileButton
             // 
             uploadFileButton.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            uploadFileButton.Location = new Point(291, 271);
+            uploadFileButton.Location = new Point(291, 102);
             uploadFileButton.Name = "uploadFileButton";
             uploadFileButton.Size = new Size(212, 41);
             uploadFileButton.TabIndex = 0;
-            uploadFileButton.Text = "Upload File";
+            uploadFileButton.Text = "Send Files";
             uploadFileButton.UseVisualStyleBackColor = true;
             uploadFileButton.Click += uploadFileButton_Click;
+            // 
+            // employeeUploadButton
+            // 
+            employeeUploadButton.Location = new Point(291, 247);
+            employeeUploadButton.Name = "employeeUploadButton";
+            employeeUploadButton.Size = new Size(212, 37);
+            employeeUploadButton.TabIndex = 1;
+            employeeUploadButton.Text = "Upload Employees to Database";
+            employeeUploadButton.UseVisualStyleBackColor = true;
+            employeeUploadButton.Click += employeeUploadButton_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(employeeUploadButton);
             Controls.Add(uploadFileButton);
             Name = "Form1";
             Text = "Main Page";
@@ -56,5 +68,6 @@
 
         #endregion
         private Button uploadFileButton;
+        private Button employeeUploadButton;
     }
 }

@@ -56,7 +56,6 @@ namespace EmailSenderProject
 
                     rows.Add(column);
                 }
-
                 reader.Close();
             }
             catch (Exception ex)
@@ -67,12 +66,48 @@ namespace EmailSenderProject
             {
                 sqlitecon.Close();
             }
-
             return rows;
         }
-        public static void InsertEmployees()
+        public static void InsertEmployees(EmployeeCsv EmployeeCsv)
         {
+            //Resets the database first
+            using (var sqlitecon = new SqliteConnection("Data Source=EmployeeDB.db"))
+            {
+                sqlitecon.Open();
+                string deleteCmd = "DELETE FROM Employee;";
 
+                using (var delCommand = new SqliteCommand(deleteCmd, sqlitecon))
+                {
+                    delCommand.ExecuteNonQuery();
+                }
+            }
+
+
+            //Insert into the database
+
+            using (sqlitecon)
+            {
+                string sqlQuery = "INSERT INTO Employee (First_Name, Last_Name, Email) VALUES (@firstName, @lastName, @email)";
+                SqliteCommand command = new SqliteCommand(sqlQuery, sqlitecon);
+                sqlitecon.Open();
+                var firstNameParam = command.Parameters.Add("@firstName", SqliteType.Text);
+                var lastNameParam = command.Parameters.Add("@lastName", SqliteType.Text);
+                var emailParam = command.Parameters.Add("@email", SqliteType.Text);
+                try
+                {
+                    foreach (var emp in EmployeeCsv.records)
+                    {
+                        firstNameParam.Value = emp.First_Name;
+                        lastNameParam.Value = emp.Last_Name;
+                        emailParam.Value = emp.Email;
+                        command.ExecuteNonQuery();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+            }
         }
         public Dictionary<string, string> GetNameEmailDictionary()
         {
