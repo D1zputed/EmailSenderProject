@@ -59,7 +59,12 @@ namespace EmailSenderProject
 
                     // Get all files in the folder
                     EmployeeCsv employeeList = new(selectedFile);
-                    SQLEngineManagement.InsertEmployees(employeeList);
+                    List<string> errorList = SQLEngineManagement.InsertEmployees(employeeList);
+                    if (errorList.Count() > 0)
+                    {
+                        string errorMessages = string.Join(Environment.NewLine, errorList);
+                        MessageBox.Show(errorMessages, "Insert Errors", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
                 else
                 {

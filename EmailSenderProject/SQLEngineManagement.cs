@@ -74,13 +74,15 @@ namespace EmailSenderProject
             }
             return rows;
         }
-        public static void InsertEmployees(EmployeeCsv EmployeeCsv)
+        public static List<string> InsertEmployees(EmployeeCsv EmployeeCsv)
         {
             /*
              * This deletes the database then inserts a new csv file. 
+             * returns a list for error message
              */
             //Resets the database first
-            using (var sqlitecon = new SqliteConnection("Data Source=EmployeeDB.db"))
+            var errorList = new List<string>();
+            using (sqlitecon)
             {
                 sqlitecon.Open();
                 string deleteCmd = "DELETE FROM Employee;";
@@ -102,28 +104,32 @@ namespace EmailSenderProject
                 var firstNameParam = command.Parameters.Add("@firstName", SqliteType.Text);
                 var lastNameParam = command.Parameters.Add("@lastName", SqliteType.Text);
                 var emailParam = command.Parameters.Add("@email", SqliteType.Text);
-                try
-                {
-                    foreach (var emp in EmployeeCsv.records)
+                foreach (var emp in EmployeeCsv.records)
+                {   
+                    try
                     {
                         firstNameParam.Value = emp.First_Name;
                         lastNameParam.Value = emp.Last_Name;
                         emailParam.Value = emp.Email;
                         command.ExecuteNonQuery();
                     }
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.Message);
+                    catch(Exception x)
+                    {
+                        string errorMsg = $"Error inserting employee {emp.First_Name} {emp.Last_Name} ({emp.Email}): {x.Message}";
+                        errorList.Add(errorMsg);
+                        Debug.WriteLine(errorMsg);
+                    }
+                        
                 }
             }
+            return errorList;
         }
         public static void InitializeDatabase()
         {
             /*
              * Checks if a database exist and if not, then it creates it
              */
-            string databasePath = "Employee.db";
+            string databasePath = "EmployeeDB.db";
 
             if (!File.Exists(databasePath))
             {
