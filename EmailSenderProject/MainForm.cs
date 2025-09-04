@@ -37,7 +37,7 @@ namespace EmailSenderProject
 
                     // Get all files in the folder
                     Debug.WriteLine(selectedFile);
-                    ExcelFileManagement.packageExcelFiles(selectedFile);
+                    ExcelFileManagement.packageExcelFiles(selectedFile, emailProgressBar, recepientEmailLabel);
                 }
                 else
                 {

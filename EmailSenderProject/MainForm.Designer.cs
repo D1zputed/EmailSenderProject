@@ -30,12 +30,14 @@
         {
             uploadFileButton = new Button();
             employeeUploadButton = new Button();
+            emailProgressBar = new ProgressBar();
+            recepientEmailLabel = new Label();
             SuspendLayout();
             // 
             // uploadFileButton
             // 
             uploadFileButton.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            uploadFileButton.Location = new Point(291, 102);
+            uploadFileButton.Location = new Point(291, 179);
             uploadFileButton.Name = "uploadFileButton";
             uploadFileButton.Size = new Size(212, 41);
             uploadFileButton.TabIndex = 0;
@@ -45,7 +47,7 @@
             // 
             // employeeUploadButton
             // 
-            employeeUploadButton.Location = new Point(291, 247);
+            employeeUploadButton.Location = new Point(291, 286);
             employeeUploadButton.Name = "employeeUploadButton";
             employeeUploadButton.Size = new Size(212, 37);
             employeeUploadButton.TabIndex = 1;
@@ -53,21 +55,44 @@
             employeeUploadButton.UseVisualStyleBackColor = true;
             employeeUploadButton.Click += employeeUploadButton_Click;
             // 
-            // Form1
+            // emailProgressBar
+            // 
+            emailProgressBar.Location = new Point(237, 115);
+            emailProgressBar.Name = "emailProgressBar";
+            emailProgressBar.Size = new Size(317, 23);
+            emailProgressBar.TabIndex = 2;
+            emailProgressBar.Visible = false;
+            // 
+            // recepientEmailLabel
+            // 
+            recepientEmailLabel.AutoSize = true;
+            recepientEmailLabel.Location = new Point(372, 141);
+            recepientEmailLabel.Name = "recepientEmailLabel";
+            recepientEmailLabel.Size = new Size(38, 15);
+            recepientEmailLabel.TabIndex = 4;
+            recepientEmailLabel.Text = "label2";
+            recepientEmailLabel.Visible = false;
+            // 
+            // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(recepientEmailLabel);
+            Controls.Add(emailProgressBar);
             Controls.Add(employeeUploadButton);
             Controls.Add(uploadFileButton);
-            Name = "Form1";
+            Name = "MainForm";
             Text = "Main Page";
             Load += Form1_Load;
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
         private Button uploadFileButton;
         private Button employeeUploadButton;
+        private ProgressBar emailProgressBar;
+        private Label recepientEmailLabel;
     }
 }

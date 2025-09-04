@@ -9,7 +9,7 @@ namespace EmailSenderProject
 {
     internal class ExcelFileManagement
     {
-        public static void packageExcelFiles(string filePath)
+        public static void packageExcelFiles(string filePath, ProgressBar progressBar, Label label)
         {
             //load the chosen excel file
             XLWorkbook wb = new XLWorkbook(filePath);
@@ -17,6 +17,10 @@ namespace EmailSenderProject
             //query the employee table
             List<Dictionary<string, string>> employees = SQLEngineManagement.RunSelectQuery();
             List<string> errorList = [];
+            // Initialize progress bar
+            progressBar.Minimum = 0;
+            progressBar.Maximum = employees.Count;
+            progressBar.Value = 0;
 
             //loop through each employee and take their name and put them as arguments in the method
             foreach (Dictionary<string, string> employee in employees)
@@ -37,8 +41,22 @@ namespace EmailSenderProject
                 wsSource.CopyTo(newBook, employeeNameInSheet);
                 newBook.SaveAs($"{employeeNameInSheet}.xlsx");
                 EmailManagement.sendEmail(employee["Email"], $"{employeeNameInSheet}.xlsx");
+
+                // Update progress bar safely on UI thread
+                if (progressBar.InvokeRequired)
+                {
+                    progressBar.Invoke(() => progressBar.Value++);
+                }
+                else
+                {
+                    progressBar.Value++;
+                }
             }
-            //var wsSource = wb.Worksheet();
+            if (errorList.Count() > 0)
+            {
+                string errorMessages = string.Join(Environment.NewLine, errorList);
+                MessageBox.Show(errorMessages, "Sending Unsuccessful for these", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
