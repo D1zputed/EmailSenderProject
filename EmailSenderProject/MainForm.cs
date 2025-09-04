@@ -4,10 +4,10 @@ using System.Security.Principal;
 
 namespace EmailSenderProject
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         SQLEngineManagement SQLEngManage = new();
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
         }
@@ -58,7 +58,8 @@ namespace EmailSenderProject
                     string selectedFile = fileDialog.FileName;
 
                     // Get all files in the folder
-                    Debug.WriteLine(selectedFile);
+                    EmployeeCsv employeeList = new(selectedFile);
+                    SQLEngineManagement.InsertEmployees(employeeList);
                 }
                 else
                 {

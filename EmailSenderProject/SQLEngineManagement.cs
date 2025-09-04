@@ -18,6 +18,9 @@ namespace EmailSenderProject
         private static SqliteConnection sqlitecon = new SqliteConnection("DataSource=EmployeeDB.db");
         public Boolean IsNowConnected()
         {
+            /*
+             * This function only test the connection to the database
+             */
             try
             {
                 sqlitecon.Open();
@@ -33,6 +36,9 @@ namespace EmailSenderProject
         }
         public static List<Dictionary<string, string>> RunSelectQuery()
         {
+            /*
+             * This function does a sql query and puts the result on a list of dictionaries
+             */
             List<Dictionary<string, string>> rows = new List<Dictionary<string, string>>();
             Dictionary<string, string> column;
             string sqlQuery = "SELECT Id, First_Name, Last_Name, Email FROM Employee";
@@ -70,6 +76,9 @@ namespace EmailSenderProject
         }
         public static void InsertEmployees(EmployeeCsv EmployeeCsv)
         {
+            /*
+             * This deletes the database then inserts a new csv file. 
+             */
             //Resets the database first
             using (var sqlitecon = new SqliteConnection("Data Source=EmployeeDB.db"))
             {
@@ -109,20 +118,11 @@ namespace EmailSenderProject
                 }
             }
         }
-        public Dictionary<string, string> GetNameEmailDictionary()
-        {
-            Dictionary<string, string> nameEmailPair = new Dictionary<string, string>();
-            List<Dictionary<string, string>> rowsFromDatabase = RunSelectQuery();
-            foreach (Dictionary<string, string> column in rowsFromDatabase)
-            {
-                string nameKey = $"{column["first_name"]}_{column["last_name"]}".ToLower();
-                nameEmailPair[nameKey] = column["email"];
-            }
-
-            return nameEmailPair;
-        }
         public static void InitializeDatabase()
         {
+            /*
+             * Checks if a database exist and if not, then it creates it
+             */
             string databasePath = "Employee.db";
 
             if (!File.Exists(databasePath))

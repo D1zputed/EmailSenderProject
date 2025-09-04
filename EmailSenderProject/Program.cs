@@ -12,7 +12,7 @@ namespace EmailSenderProject
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
             SQLEngineManagement.InitializeDatabase();
-            Application.Run(new Form1());
+            Application.Run(new MainForm());
         }
     }
 }

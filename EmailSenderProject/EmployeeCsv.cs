@@ -14,7 +14,7 @@ namespace EmailSenderProject
     internal class EmployeeCsv
     {
         private readonly string _filePath;
-        public required IEnumerable<Employee> records;
+        public IEnumerable<Employee>? records;
 
         public EmployeeCsv(string filePath)
         {
