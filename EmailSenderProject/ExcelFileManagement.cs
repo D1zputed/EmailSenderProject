@@ -51,9 +51,9 @@ namespace EmailSenderProject
                 {
                     wsSource = wb.Worksheet(employeeNameInSheet);
                 }
-                catch (ArgumentException)
+                catch (ArgumentException e)
                 {
-                    errorList.Add(employeeNameInSheet);
+                    errorList.Add($"{employeeNameInSheet}: no worksheet found for employee, Please double check the name in sheet");
                     continue;
                 }
 
