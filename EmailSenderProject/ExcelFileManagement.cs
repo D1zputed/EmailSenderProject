@@ -33,6 +33,16 @@ namespace EmailSenderProject
             //loop through each employee and take their name and put them as arguments in the method
             foreach (Dictionary<string, string> employee in employees)
             {
+                // Update progress bar safely on UI thread
+                if (progressBar.InvokeRequired)
+                {
+                    progressBar.Invoke(() => progressBar.Value++);
+                }
+                else
+                {
+                    progressBar.Value++;
+                }
+
                 XLWorkbook newBook = new XLWorkbook();
                 IXLWorksheet wsSource;
                 string employeeNameInSheet = $"{employee["Last_Name"]}_{employee["First_Name"]}";
@@ -51,17 +61,6 @@ namespace EmailSenderProject
                 wsSource.CopyTo(newBook, employeeNameInSheet);
                 newBook.SaveAs($"{employeeNameInSheet}.xlsx");
                 EmailManagement.sendEmail(employee["Email"], $"{employeeNameInSheet}.xlsx");
-
-
-                // Update progress bar safely on UI thread
-                if (progressBar.InvokeRequired)
-                {
-                    progressBar.Invoke(() => progressBar.Value++);
-                }
-                else
-                {
-                    progressBar.Value++;
-                }
             }
             if (errorList.Count() > 0)
             {
