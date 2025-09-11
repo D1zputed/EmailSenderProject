@@ -13,10 +13,10 @@ using System.Threading.Tasks;
 
 namespace EmailSenderProject
 {
-    internal class SQLEngineManagement
+    internal static class SQLEngineManagement
     {
         private static SqliteConnection sqlitecon = new SqliteConnection("DataSource=EmployeeDB.db");
-        public Boolean IsNowConnected()
+        public static Boolean IsNowConnected()
         {
             /*
              * This function only test the connection to the database

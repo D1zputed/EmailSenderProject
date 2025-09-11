@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EmailSenderProject
 {
-    internal class Employee
+    internal class EmployeeModel
     {
         public string First_Name { get; set; }
         public string Last_Name { get; set; }

@@ -14,7 +14,7 @@ namespace EmailSenderProject
     internal class EmployeeCsv
     {
         private readonly string _filePath;
-        public List<Employee> records;
+        public List<EmployeeModel> records;
 
         public EmployeeCsv(string filePath)
         {
@@ -27,7 +27,7 @@ namespace EmailSenderProject
             using (var reader = new StreamReader(_filePath))
             using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
             {
-                records = csv.GetRecords<Employee>().ToList();
+                records = csv.GetRecords<EmployeeModel>().ToList();
             }
         }
     }
