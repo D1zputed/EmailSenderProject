@@ -6,7 +6,6 @@ namespace EmailSenderProject
 {
     public partial class MainForm : Form
     {
-        SQLEngineManagement SQLEngManage = new();
         public MainForm()
         {
             InitializeComponent();
@@ -14,7 +13,7 @@ namespace EmailSenderProject
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            if (SQLEngManage.IsNowConnected() == true)
+            if (SQLEngineManagement.IsNowConnected() == true)
             {
                 MessageBox.Show("You are now connected!", "NOTICE!", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
