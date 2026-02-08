@@ -15,7 +15,7 @@ namespace EmailSenderProject
         public static void sendEmail(string receipientEmail, string attachmentFilePath)
         {
             var email = new MimeMessage();
-            email.From.Add(MailboxAddress.Parse("asaphdelcoro98@gmail.com"));
+            email.From.Add(MailboxAddress.Parse(//email));
             email.To.Add(MailboxAddress.Parse(receipientEmail));
             email.Subject = "Test Email";
 
@@ -34,7 +34,9 @@ namespace EmailSenderProject
 
             using var smtp = new SmtpClient();
             smtp.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
-            smtp.Authenticate("asaphdelcoro987@gmail.com", "xgyx bsuk lnfr htks");
+
+            //replace authentication
+            smtp.Authenticate(//email, //passcode);
             Debug.WriteLine(smtp.Send(email));
             Debug.WriteLine(receipientEmail);
             smtp.Disconnect(true);
